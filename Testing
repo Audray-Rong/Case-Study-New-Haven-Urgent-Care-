@@ -1,0 +1,676 @@
+   
+/* 	Test-1
+*/
+
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (123456789, 1234, 'Nicole', 'M', 'Pupp');
+
+INSERT INTO NURSE (N_ESSN)
+VALUES (123456789);
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode, N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654321, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+INSERT INTO CHILD (Child_Patient_ID)
+VALUES (987654321);
+
+
+
+
+SELECT *
+FROM CHILD C, GUARDIAN_RELATIONSHIP GR
+WHERE C.Child_Patient_ID = GR.Patient_CID
+
+
+
+/* Test-2
+*/
+
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (123456780, 1234, 'Nicole', 'M', 'Pupp');
+
+INSERT INTO NURSE (N_ESSN)
+VALUES (123456780);
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode, N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654320, STR_TO_DATE('07-25-1990','%m-%d-%Y'), 'Mae', 'A', 'Patient', '1018 13th', 'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+INSERT INTO CHILD (Child_Patient_ID)
+VALUES (987654320); 
+
+INSERT INTO PARENT_GUARDIAN (Parent_ID, Parent_Fname, Parent_Mname, Parent_Lname)
+VALUES (545454545, 'Parent', 'A', 'Parent');
+
+INSERT INTO GUARDIAN_RELATIONSHIP (Patient_CID, Parent_ID)
+VALUES(987654320, 545454545);
+
+SELECT *
+FROM PATIENT P, GUARDIAN_RELATIONSHIP GR
+WHERE P.Patient_ID = '987654320' AND P.Patient_ID = GR.Patient_CID
+
+/* Test-3
+*/
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street,
+City, State, Zipcode, N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654321, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 
+'M', 'Rong', '1018 13th', 'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+INSERT INTO CHILD (Child_Patient_ID)
+VALUES (987654321); 
+
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (123456789, 1234, 'Nicole', 'M', 'Pupp'); 
+
+INSERT INTO NURSE (N_ESSN)
+VALUES (123456789); 
+
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (123456780, 1234, 'Nicole', 'M', 'Pupp'); 
+
+INSERT INTO NURSE (N_ESSN)
+VALUES (123456780); 
+
+INSERT INTO INTAKE_CLERK (IC_ESSN)
+VALUES (222222222); 
+
+INSERT INTO INTAKE_CLERK (IC_ESSN)
+VALUES (222222220); 
+
+INSERT INTO PARENT_GUARDIAN (Parent_ID,Parent_Fname,Parent_Mname,Parent_Lname)
+VALUES (343434343, 'Jack', 'H', 'Rong');
+
+INSERT INTO PARENT_GUARDIAN (Parent_ID, Parent_Fname,Parent_Mname,Parent_Lname)
+VALUES (565656565, 'Amy', 'F', 'Rong'); 
+
+INSERT INTO INSURANCE_COMPANY (IC_ID, Payer_ID, ICname, Group_num)
+VALUES (121212125, 212121212, 'GOOD2', 4); 
+
+## first visit
+INSERT INTO VISTS (Patient_ID, IC_ID, IC_ESSN, Visit_Record, 
+Insurance_Record, Cost, Primary_Contact, Copay, Name, Card_Num, Exp_Date, Security_Code)
+VALUES (987654321, 121212121, 222222222, 12345, 54321, 200, 
+1234567890, 12.3, 'ABC', 1, STR_TO_DATE('09-01-2025', '%m-%d-%Y'), 123);
+
+INSERT INTO GUARDIAN_RELATIONSHIP (Patient_CID, Parent_ID)
+VALUES (987654321, 3434343);
+
+## second visit
+INSERT INTO VISTS (Patient_ID, IC_ID, IC_ESSN, Visit_Record, 
+Insurance_Record, Cost, Primary_Contact, Copay, Name, Card_Num, Exp_Date, Security_Code)
+VALUES (987654321, 121212125, 222222220 , 12346, 64321, 201.9,
+12344678900, 2,  'ABC', 1, STR_TO_DATE('09-01-2025', '%m-%d-%Y'), 234);
+
+INSERT INTO GUARDIAN_RELATIONSHIP(Patient_CID, Parent_ID)
+VALUES (987654321, 565656565);
+
+SELECT *
+FROM GUARDIAN_RELATIONSHIP
+WHERE Patient_CID = '987654321'; 
+
+
+/* Test-4
+*/
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode,
+					N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654321, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 
+		'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (222222222, 1234, 'Nicole', 'M', 'Pupp');
+
+INSERT INTO INTAKE_CLERK (IC_ESSN)
+VALUES (222222222);
+
+INSERT INTO INSURANCE_COMPANY(IC_ID, Payer_ID, ICname, Group_num)
+VALUES (123, 145, 'N/A', 1);
+
+INSERT INTO VISTS (Patient_ID, IC_ID, IC_ESSN, Visit_Record, Insurance_Record, Cost, Primary_Contact,
+					Copay, Name, Card_Num, Exp_Date, Security_Code)
+VALUES (987654321, 0, 222222222, 'Physical', 'N/A', 150.00, 'Nicole P', 30.00, 'Nicole Pupp', 
+		12345678, 0929, 123);
+
+SELECT *
+FROM VISTS
+WHERE IC_ID = 0
+
+/* Test-5
+*/
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode,
+					N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654321, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 
+		'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (222222222, 1234, 'Nicole', 'M', 'Pupp');
+
+INSERT INTO INTAKE_CLERK (IC_ESSN)
+VALUES (222222222);
+
+INSERT INTO INSURANCE_COMPANY(IC_ID, Payer_ID, ICname, Group_num)
+VALUES (0, 0, 'N/A', 0);
+
+INSERT INTO VISTS (Patient_ID, IC_ID, IC_ESSN, Visit_Record, Insurance_Record, Cost, Primary_Contact,
+					Copay, Name, Card_Num, Exp_Date, Security_Code)
+VALUES (987654321, 0, 222222222, 'Physical', 'N/A', 150.00, 'Nicole P', 30.00, 'Nicole Pupp', 
+		NULL, NULL, NULL);
+
+SELECT *
+FROM VISTS
+WHERE IC_ID = 0
+
+/* Test-6
+*/
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode, N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654315, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (222222225, 1234, 'Nicole', 'M', 'Pupp');
+
+INSERT INTO INTAKE_CLERK (IC_ESSN)
+VALUES (222222225);
+
+INSERT INTO INSURANCE_COMPANY(IC_ID, Payer_ID, ICname, Group_num)
+VALUES (02, 01, 'NA', 01);
+
+INSERT INTO VISTS (Patient_ID, IC_ID, IC_ESSN, Visit_Record, Insurance_Record, Cost, Primary_Contact, Copay, Name, Card_Num, Exp_Date, Security_Code)
+VALUES (987654315, 02, 222222225, 'Physical', '1', 150.00, 'Nicole P', 30.00, 'Nicole Pupp', 12345678, 0929, 123); 
+
+INSERT INTO VISTS (Patient_ID, IC_ID, IC_ESSN, Visit_Record, Insurance_Record, Cost, Primary_Contact, Copay, Name, Card_Num, Exp_Date, Security_Code)
+VALUES (987654315, 02, 222222225, 'Physical', '2', 150.00, 'Nicole P', 30.00, 'Nicole Pupp', 12345678, 0929, 123); 
+
+SELECT *
+FROM VISTS V, PATIENT P, INSURANCE_COMPANY I, INTAKE_CLERK C
+WHERE P.Patient_ID = '987654315' AND V.Patient_ID = P.Patient_ID AND V.IC_ESSN = C.IC_ESSN AND V.IC_ID = I.IC_ID
+
+/* Test-7
+*/
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode,
+					N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654321, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Bret', 'M', 'Bodnar', '1018 13th', 
+		'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+        
+INSERT INTO SERVICE_PROVIDER_DOCTOR (SP_ESSN)
+VALUES (123456780);
+
+INSERT INTO SERVICE_PROVIDER_DOCTOR (SP_ESSN)
+VALUES (123456789);
+
+INSERT INTO DIAGNOSIS (ICD_10_CM, DName)
+VALUES (12345, 'Strep Throat');
+
+INSERT INTO DIAGNOSIS (ICD_10_CM, DName)
+VALUES (54321, 'Ear Infection');
+
+INSERT INTO DIAGNOSED (Patient_ID, ICD_10_CM, SP_ESSN)
+VALUES (987654321, 12345, 123456780);
+
+INSERT INTO DIAGNOSED (Patient_ID, ICD_10_CM, SP_ESSN)
+VALUES (987654321, 54321, 123456789);
+
+SELECT * 
+FROM DIAGNOSED
+WHERE Patient_ID = 987654321
+
+/* Test-8
+*/
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode,
+					N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654321, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Bret', 'M', 'Bodnar', '1018 13th', 
+		'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+        
+INSERT INTO SERVICE_PROVIDER_DOCTOR (SP_ESSN)
+VALUES (123456780);
+
+INSERT INTO SERVICE_PROVIDER_DOCTOR (SP_ESSN)
+VALUES (123456789);
+
+INSERT INTO DIAGNOSIS (ICD_10_CM, DName)
+VALUES (12345, 'Strep Throat');
+
+INSERT INTO DIAGNOSIS (ICD_10_CM, DName)
+VALUES (54321, 'Ear Infection');
+
+INSERT INTO DIAGNOSED (Patient_ID, ICD_10_CM, SP_ESSN)
+VALUES (987654321, 12345, 123456780);
+
+INSERT INTO DIAGNOSED (Patient_ID, ICD_10_CM, SP_ESSN)
+VALUES (987654321, 54321, 123456789);
+
+SELECT * 
+FROM DIAGNOSED
+WHERE Patient_ID = 987654321
+
+/* Test-9
+*/
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode,
+					N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654321, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Bret', 'M', 'Bodnar', '1018 13th', 
+		'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+        
+INSERT INTO SERVICE_PROVIDER_DOCTOR (SP_ESSN)
+VALUES (123456780);
+
+INSERT INTO SERVICE_PROVIDER_DOCTOR (SP_ESSN)
+VALUES (123456789);
+
+INSERT INTO DIAGNOSIS (ICD_10_CM, DName)
+VALUES (12345, 'Strep Throat');
+
+INSERT INTO DIAGNOSIS (ICD_10_CM, DName)
+VALUES (54321, 'Ear Infection');
+
+INSERT INTO DIAGNOSED (Patient_ID, ICD_10_CM, SP_ESSN)
+VALUES (987654321, 12345, 123456780);
+
+INSERT INTO DIAGNOSED (Patient_ID, ICD_10_CM, SP_ESSN)
+VALUES (987654321, 54321, 123456789);
+
+SELECT DISTINCT * 
+FROM DIAGNOSED
+WHERE Patient_ID = 987654321
+
+/* Test-10
+*/
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode,
+					N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654322, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Bret', 'M', 'Bodnar', '1018 13th', 
+		'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+        
+INSERT INTO VISTS (Patient_ID, IC_ID, IC_ESSN, Visit_Record, Insurance_Record, Cost, Primary_Contact,
+					Copay, Name, Card_Num, Exp_Date, Security_Code)
+VALUES (987654322, 0, 222222222, 'Physical', 'N/A', 150.00, 'Nicole P', 30.00, 'Nicole Pupp', 
+		12345678, 0929, 123);
+        
+        
+SELECT *
+FROM DIAGNOSED
+WHERE Patient_ID = 987654322;
+
+
+/* Test-11
+*/
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode, N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654312, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+-- Service Provider Diagnosis
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (222222223, 1234, 'Nicole', 'M', 'Pupp');
+
+INSERT INTO SERVICE_PROVIDER_DOCTOR (SP_ESSN)
+VALUES (222222223);
+
+INSERT INTO DIAGNOSIS (ICD_10_CM, DName)
+VALUES(4321, 'bpd');
+
+INSERT INTO DIAGNOSED (Patient_ID, ICD_10_CM, SP_ESSN)
+VALUES(987654312, 4321, 222222223);
+
+-- Service Provider Diag Query
+SELECT *
+FROM DIAGNOSED DD, DIAGNOSIS D, SERVICE_PROVIDER_DOCTOR SP, PATIENT P
+WHERE DD.Patient_ID = '987654312' AND DD.ICD_10_CM = '4321'AND DD.ICD_10_CM = D.ICD_10_CM AND DD.SP_ESSN = SP.SP_ESSN AND DD.Patient_ID = P.Patient_ID;
+
+-- Non-Service Provider Diagnosis
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (222222224, 1234, 'Nicole', 'M', 'Pupp');
+
+INSERT INTO DIAGNOSIS (ICD_10_CM, DName)
+VALUES(4322, 'disease');
+
+INSERT INTO DIAGNOSED (Patient_ID, ICD_10_CM, SP_ESSN)
+VALUES(987654312, 4322, 222222224);
+
+-- Non-Service Provider Diag Query
+SELECT *
+FROM DIAGNOSED DD, DIAGNOSIS D, EMPLOYEE E, PATIENT P
+WHERE DD.Patient_ID = '987654312' AND DD.ICD_10_CM = '4322'AND DD.ICD_10_CM = D.ICD_10_CM AND DD.SP_ESSN = E.ESSN AND DD.Patient_ID = P.Patient_ID
+
+/* Test-12
+*/
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode, N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654302, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+-- Aditional Procedures
+INSERT INTO TREATMENT (ICD_10_PCS, TName, Cost)
+VALUES(2541, 'Assessment', 350.00);
+
+INSERT INTO TREATED (ICD_10_PCS, Patient_ID)
+VALUES(2541, 987654302);
+
+INSERT INTO TREATMENT (ICD_10_PCS, TName, Cost)
+VALUES(2551, 'Therapy', 150.00);
+
+INSERT INTO TREATED (ICD_10_PCS, Patient_ID)
+VALUES(2551, 987654302);
+
+-- Procedure Query
+SELECT *
+FROM TREATED TD, TREATMENT TM, PATIENT P
+WHERE P.Patient_ID = '987654302' AND TD.Patient_ID = P.Patient_ID AND TD.ICD_10_PCS = TM.ICD_10_PCS;
+
+-- Additional Tests
+
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (222222243, 1534, 'Nicole', 'M', 'Pupp');
+
+INSERT INTO SERVICE_PROVIDER_DOCTOR (SP_ESSN)
+VALUES (222222243);
+
+INSERT INTO DIAGNOSIS (ICD_10_CM, DName)
+VALUES(5321, 'depression');
+
+INSERT INTO DIAGNOSED (Patient_ID, ICD_10_CM, SP_ESSN)
+VALUES(987654302, 5321, 222222243);
+
+INSERT INTO DIAGNOSIS (ICD_10_CM, DName)
+VALUES(5421, 'anxiety');
+
+INSERT INTO DIAGNOSED (Patient_ID, ICD_10_CM, SP_ESSN)
+VALUES(987654302, 5421, 222222243);
+
+-- Test Query
+SELECT *
+FROM DIAGNOSED DD, DIAGNOSIS D, SERVICE_PROVIDER_DOCTOR SP, PATIENT P
+WHERE DD.Patient_ID = '987654302' AND DD.ICD_10_CM = D.ICD_10_CM AND DD.SP_ESSN = SP.SP_ESSN AND DD.Patient_ID = P.Patient_ID;
+
+/* Test-13
+*/
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode, N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654359, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (222222259, 1234, 'Nicole', 'M', 'Pupp');
+
+INSERT INTO INTAKE_CLERK (IC_ESSN)
+VALUES (222222259);
+
+INSERT INTO INSURANCE_COMPANY(IC_ID, Payer_ID, ICname, Group_num)
+VALUES (82, 01, 'NA', 01);
+
+INSERT INTO VISTS (Patient_ID, IC_ID, IC_ESSN, Visit_Record, Insurance_Record, Cost, Primary_Contact, Copay, Name, Card_Num, Exp_Date, Security_Code)
+VALUES (987654359, 82, 222222259, 'Physical', '1', 150.00, 'Nicole P', 30.00, 'Nicole Pupp', 12345678, 0929, 123); 
+
+SELECT Height, Blood_Pressure, Pulse, Weight
+FROM VISTS V, PATIENT P, INSURANCE_COMPANY I, INTAKE_CLERK C
+WHERE P.Patient_ID = '987654359' AND V.Patient_ID = P.Patient_ID AND V.IC_ESSN = C.IC_ESSN AND V.IC_ID = I.IC_ID;
+
+-- Modify the initial assessment(stored in patient)
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode, N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654359, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 'Minneapolis', 'MN', 55359, 123456789, 160.00, '150/100', 75, 130.00);
+
+SELECT Height, Blood_Pressure, Pulse, Weight
+FROM VISTS V, PATIENT P, INSURANCE_COMPANY I, INTAKE_CLERK C
+WHERE P.Patient_ID = '987654359' AND V.Patient_ID = P.Patient_ID AND V.IC_ESSN = C.IC_ESSN AND V.IC_ID = I.IC_ID;
+
+/* Test-14
+*/
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode, N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654999, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (222222999, 1234, 'Nicole', 'M', 'Pupp');
+
+INSERT INTO INTAKE_CLERK (IC_ESSN)
+VALUES (222222999);
+
+INSERT INTO INSURANCE_COMPANY(IC_ID, Payer_ID, ICname, Group_num)
+VALUES (99, 01, 'NA', 01);
+
+INSERT INTO VISTS (Patient_ID, IC_ID, IC_ESSN, Visit_Record, Insurance_Record, Cost, Primary_Contact, Copay, Name, Card_Num, Exp_Date, Security_Code)
+VALUES (987654999, 99, 222222999, 'Physical', '1', 150.00, 'Nicole P', 30.00, 'Nicole Pupp', 12345678, 0929, 123); 
+
+-- Change insurance company
+INSERT INTO INSURANCE_COMPANY(IC_ID, Payer_ID, ICname, Group_num)
+VALUES (98, 01, 'NA', 01);
+
+INSERT INTO VISTS (Patient_ID, IC_ID, IC_ESSN, Visit_Record, Insurance_Record, Cost, Primary_Contact, Copay, Name, Card_Num, Exp_Date, Security_Code)
+VALUES (987654999, 98, 222222999, 'Physical', '2', 150.00, 'Nicole P', 30.00, 'Nicole Pupp', 12345678, 0929, 123); 
+
+-- Change intake clerk
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (222222998, 1234, 'Nicole', 'M', 'Pupp');
+
+INSERT INTO INTAKE_CLERK (IC_ESSN)
+VALUES (222222998);
+
+INSERT INTO VISTS (Patient_ID, IC_ID, IC_ESSN, Visit_Record, Insurance_Record, Cost, Primary_Contact, Copay, Name, Card_Num, Exp_Date, Security_Code)
+VALUES (987654999, 98, 222222998, 'Physical', '3', 150.00, 'Nicole P', 30.00, 'Nicole Pupp', 12345678, 0929, 123); 
+
+SELECT *
+FROM VISTS V, PATIENT P, INSURANCE_COMPANY I, INTAKE_CLERK C
+WHERE P.Patient_ID = '987654999' AND V.Patient_ID = P.Patient_ID AND V.IC_ESSN = C.IC_ESSN AND V.IC_ID = I.IC_ID
+
+/* Test-15
+*/
+
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (575757576, 1234, 'A', 'M', 'B');
+
+INSERT INTO NURSE (N_ESSN)
+VALUES (575757576);
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, 
+PFname, PMname, PLname, Street, City, State, Zipcode, N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (909090901, STR_TO_DATE('07-25-2015','%m-%d-%Y'), 
+'Ruby', 'M', 'Rong', '1018 14th', 'Minneapolis', 'MN', 55359, 575757576, 140.00, '134/87', 95, 120.00);
+
+INSERT INTO CHILD (Child_Patient_ID)
+VALUES (909090901); 
+
+
+SELECT E.ESSN, E.Employee_ID, E.EFname, E.EMname, E.ELname
+FROM (PATIENT NATURAL JOIN NURSE) JOIN EMPLOYEE AS E ON N_ESSN = ESSN
+WHERE Weight = 120.00
+AND   Pulse = 95
+AND   Blood_Pressure = '134/87'
+AND   Height = 140
+
+/* Test-16
+*/
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode, 
+					N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654321, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 
+		'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode,
+					N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654322, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Bret', 'M', 'Bodnar', '1018 13th', 
+		'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+        
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode,
+					N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654319, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 
+		'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+        
+SELECT N_ESSN, Patient_ID
+FROM PATIENT
+WHERE N_ESSN = 123456789;
+
+/* Test-17
+*/
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street,
+City, State, Zipcode, N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654325, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 
+'M', 'Rong', '1018 13th', 'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (123456709, 1234, 'Nicole', 'M', 'Pupp'); 
+
+INSERT INTO INTAKE_CLERK (IC_ESSN)
+VALUES (123456709); 
+
+INSERT INTO INSURANCE_COMPANY (IC_ID, Payer_ID, ICname, Group_num)
+VALUES (1212, 212121212, 'GOOD2', 4); 
+
+INSERT INTO VISTS (Patient_ID, IC_ID, IC_ESSN, Visit_Record, 
+Insurance_Record, Cost, Primary_Contact, Copay, Name, Card_Num, Exp_Date, Security_Code) 
+VALUES (987654325, 1212, 123456709, 12345, 54321, 200, 
+1234567890, 12.3, 'ABC', 1, STR_TO_DATE('09-01-2025', '%m-%d-%Y'), 123);
+
+SELECT Height,Blood_Pressure,Pulse,WEIGHT
+FROM (PATIENT NATURAL JOIN VISTS)
+WHERE Patient_ID = '987654325'
+AND IC_ID = '1212'
+AND IC_ESSN = '123456709' 
+
+/* Test-18
+*/
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street,
+City, State, Zipcode, N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654321, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 
+'M', 'Rong', '1018 13th', 'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+INSERT INTO CHILD (Child_Patient_ID)
+VALUES (987654321); 
+
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (123456789, 1234, 'Nicole', 'M', 'Pupp'); 
+
+INSERT INTO NURSE (N_ESSN)
+VALUES (123456789); 
+
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (999999999, 7658, 'Doctor', 'M', 'Provider'); 
+
+INSERT INTO SERVICE_PROVIDER_DOCTOR (SP_ESSN)
+VALUES (999999999);
+
+INSERT INTO INTAKE_CLERK (IC_ESSN)
+VALUES (222222222); 
+
+INSERT INTO INSURANCE_COMPANY (IC_ID, Payer_ID, ICname, Group_num)
+VALUES (121212125, 212121212, 'GOOD2', 4); 
+
+INSERT INTO VISTS (Patient_ID, IC_ID, IC_ESSN, Visit_Record, 
+Insurance_Record, Cost, Primary_Contact, Copay, Name, Card_Num, Exp_Date, Security_Code)
+VALUES (987654321, 121212125, 222222222, 12345, 54321, 200, 
+1234567890, 12.3, 'ABC', 1, STR_TO_DATE('09-01-2025', '%m-%d-%Y'), 123);
+
+INSERT INTO DIAGNOSIS (ICD_10_CM, DName)
+VALUES (802759, 'HA');
+
+INSERT INTO DIAGNOSED (Patient_ID, ICD_10_CM, SP_ESSN)
+VALUES (987654321, 802759, 999999999);
+
+INSERT INTO DIAGNOSIS (ICD_10_CM, DName)
+VALUES (691827, 'HI');
+
+INSERT INTO DIAGNOSED (Patient_ID, ICD_10_CM, SP_ESSN)
+VALUES (987654321, 691827, 999999999);
+
+SELECT *
+FROM DIAGNOSED
+WHERE Patient_ID = '987654321'
+
+
+/* Test-19
+*/
+
+## FK test - PATIENT (Max - 1) to NURSE (Max - N)
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode,
+					N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654321, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 
+		'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+        
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode,
+					N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654319, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 
+		'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode,
+					N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654321, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 
+		'Minneapolis', 'MN', 55359, 123456780, 160.00, '140/90', 75, 130.00);
+        
+SELECT Patient_ID, N_ESSN
+FROM PATIENT
+WHERE Patient_ID = 987654321;
+
+SELECT PATIENT.Patient_ID, NURSE.N_ESSN
+FROM NURSE, PATIENT
+WHERE NURSE.N_ESSN = PATIENT.N_ESSN
+AND NURSE.N_ESSN = 123456789;
+
+## FK test - CHILD (Max - M) to PARENT_GUARDIAN (Max - N)
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode,
+					N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654321, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 
+		'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+INSERT INTO CHILD (Child_Patient_ID)
+VALUES (987654321);
+
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode, N_ESSN, Height, 
+					Blood_Pressure, Pulse, Weight)
+VALUES (987654310, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 'Minneapolis', 'MN', 
+		55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+INSERT INTO CHILD (Child_Patient_ID)
+VALUES (987654310);
+
+INSERT INTO PARENT_GUARDIAN (Parent_ID, Parent_Fname, Parent_Mname, Parent_Lname)
+VALUES (111111111, 'Nicole', 'M', 'Pupp');
+
+INSERT INTO PARENT_GUARDIAN (Parent_ID, Parent_Fname, Parent_Mname, Parent_Lname)
+VALUES (333333333, 'Audray', 'M', 'Rong');
+
+INSERT INTO GUARDIAN_RELATIONSHIP (Patient_CID, Parent_ID)
+VALUES (987654321, 111111111);
+
+INSERT INTO GUARDIAN_RELATIONSHIP (Patient_CID, Parent_ID)
+VALUES (987654321, 333333333);
+
+INSERT INTO GUARDIAN_RELATIONSHIP (Patient_CID, Parent_ID)
+VALUES (987654310, 111111111);
+
+SELECT *
+FROM GUARDIAN_RELATIONSHIP
+WHERE Patient_CID = 987654321;
+
+SELECT *
+FROM GUARDIAN_RELATIONSHIP
+WHERE Parent_ID = 111111111;
+
+/* Test-20
+*/
+
+##Primary key test of PATIENT
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode,
+					N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654321, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Audray', 'M', 'Rong', '1018 13th', 
+		'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+        
+##Primary key test for EMPLOYEE
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (222222222, 1234, 'Nicole', 'M', 'Pupp');  
+        
+##Primary key test for PATIENT
+INSERT INTO PATIENT (Patient_ID, Date_of_birth, PFname, PMname, PLname, Street, City, State, Zipcode,
+					N_ESSN, Height, Blood_Pressure, Pulse, Weight)
+VALUES (987654321, STR_TO_DATE('07-25-2012','%m-%d-%Y'), 'Bret', 'M', 'Bodnar', '1018 13th', 
+		'Minneapolis', 'MN', 55359, 123456789, 160.00, '140/90', 75, 130.00);
+
+##Primary key test for EMPLOYEE
+INSERT INTO EMPLOYEE (ESSN, Employee_ID, EFname, EMname, ELname)
+VALUES (222222222, 1234, 'Bret', 'M', 'Bodnar');      
+
+
+SELECT *
+FROM PATIENT;
+
+SELECT *
+FROM EMPLOYEE;
